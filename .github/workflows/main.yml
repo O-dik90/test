@@ -29,4 +29,5 @@ jobs:
         username: ${{ secrets.FTP_NAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: dist/
+        target: "/home/pusatpr1"
         debug: true
