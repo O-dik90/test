@@ -1,4 +1,4 @@
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/pusatpr1/public_html/genpro/
-    - /bin/cp dist $DEPLOYPATH
+    - export DEPLOYPATH=/home/pusatpr1/public_html/test/
+    - /bin/cp dist/* $DEPLOYPATH
