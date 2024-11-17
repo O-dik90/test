@@ -1,55 +1,32 @@
----
-deployment:
-  tasks:
-    # If .deploy.conf doesn't exist, create it from .deploy.example.conf
-    - |
-      if [ ! -f .deploy.conf ]
-      then
-          cp .deploy.example.conf .deploy.conf
-          exit
-      else
-          source .deploy.conf
-      fi
-    
-    
-    # Set variables
-    - export DEPLOY_LOG="$DEPLOY_PATH/.deploy.log"
-    - export DEPLOY_LIST="$DEPLOY_PATH/.deployed-files.txt"
+on:
+  push:
+    branches: main
 
-    # Create deployment path if it doesn't exist
-    - if [ ! -d "$DEPLOY_PATH" ]; then mkdir -p "$DEPLOY_PATH"; fi
+name: 🚀 Deploy website on push
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v2
 
-    # Start deployment
-    - echo "=== Deployment started" > "$DEPLOY_LOG"
+      - name: Use Node.js 18
+        uses: actions/setup-node@v2
+        with:
+          node-version: "18.x"
 
-    # Remove old files and empty directories
-    - |
-      if [ -f "$DEPLOY_LIST" ]
-      then
-        echo "=== Removing old files" >> "$DEPLOY_LOG"
-        tac "$DEPLOY_LIST" | while read file; do
-          if [ -d "$DEPLOY_PATH/$file" ] && [ ! "$(ls -A "$DEPLOY_PATH/$file")" ]
-          then
-            echo "Removing empty directory: $file" >> "$DEPLOY_LOG"
-            rmdir "$DEPLOY_PATH/$file"
-          elif [ -f "$DEPLOY_PATH/$file" ]
-          then
-            echo "Removing file: $file" >> "$DEPLOY_LOG"
-            rm "$DEPLOY_PATH/$file"
-          fi
-        done
-      fi
-    
-    
-    
-    # Copy new files
-    - |
-      echo "=== Copying new files" >> "$DEPLOY_LOG"
-      find -mindepth 1 \
-          ! -path "*/.git*" \
-          ! -name ".cpanel.yml" \
-          ! -name ".deploy.conf" \
-          ! -name ".deploy.example.conf" \
-          -exec echo "{}" >> "$DEPLOY_LOG" \;\
-          -exec cp -RTpu "{}" "$DEPLOY_PATH/{}" \;\
-          -fprint "$DEPLOY_LIST"
+      - name: 🔨 Build Project
+        run: |
+          npm install
+          npm run build
+          npm run test
+
+      - name: 📂 Sync files
+        uses: SamKirkland/FTP-Deploy-Action@4.1.0
+        with:
+          server: ${{ secrets.ftp_server }}
+          username: ${{ secrets.ftp_name }}
+          password: ${{ secrets.ftp_password }}
+          dangerous-clean-slate: true
+          local-dir: ./build/
