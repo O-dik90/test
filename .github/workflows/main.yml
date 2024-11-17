@@ -25,7 +25,7 @@ jobs:
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
         protocol: ftp
-        server: ${{ secrets.FTP_SERVER }}
+        server: ftp.pusatprestasi.ittelkom-pwt.ac.id
         username: ${{ secrets.FTP_NAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./dist/
