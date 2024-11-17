@@ -30,5 +30,4 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           dangerous-clean-slate: true
           local-dir: ./build/
-          protocol: ftp
           debug: true
