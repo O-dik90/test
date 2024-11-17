@@ -29,4 +29,3 @@ jobs:
         username: ${{ secrets.FTP_NAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./dist/
-        debug: true
