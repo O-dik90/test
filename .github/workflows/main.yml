@@ -30,6 +30,7 @@ jobs:
       - name: 🔨 Install Dependencies
         run: |
           npm install
+          npm run build
           git reset --hard
 
       - name: 📂 Sync folders and files to the server
