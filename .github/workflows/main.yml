@@ -21,8 +21,13 @@ jobs:
     - name: 📂 Sync folders
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
-        server: sftp://pusatprestasi.ittelkom-pwt.ac.id:2083
+        server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_PASSWORD  }}
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./dist/
+        server-dir: public_html/test/
+        port: 21
+        log-level: debug
+        timeout: 90000
+
 
