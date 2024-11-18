@@ -2,7 +2,6 @@
   "name": "test",
   "private": true,
   "version": "1.0.0",
-  "homepage": "https://pusatprestasi.ittelkom-pwt.ac.id/genpro",
   "type": "module",
   "scripts": {
     "dev": "vite",
