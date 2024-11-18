@@ -27,7 +27,7 @@ jobs:
         local-dir: ./dist/
         server-dir: public_html/test/
         port: 21
-        log-level: debug
+        log-level: verbose
         timeout: 90000
 
 
