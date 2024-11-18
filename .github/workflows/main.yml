@@ -21,7 +21,8 @@ jobs:
     - name: 📂 Sync folders
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
-        server: ${{ secrets.FTP_SERVER }}
+        server: sftp://pusatprestasi.ittelkom-pwt.ac.id:2083
         username: ${{ secrets.FTP_PASSWORD  }}
         password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ./dist/
 
