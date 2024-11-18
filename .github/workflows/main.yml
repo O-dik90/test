@@ -1,43 +1,29 @@
-on:
-  push:
-    branches:
-      - main
-
-name: 🚀 Deploy File to cPanel
+on: push
+name: 🚀 Deploy website on push
 jobs:
-  FTP-Deploy-Action:
+  web-deploy:
     name: 🎉 Deploy
     runs-on: ubuntu-latest
-
     steps:
-      - name: 🚚 Get latest code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 2
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v4
 
-      - name: Use Node.js 16
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-
-      - name: Cache npm dependencies
-        uses: actions/cache@v3
-        id: cache-node-modules
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-
-      - name: 🔨 Install Dependencies
-        run: |
-          npm install
-          npm run build
-          git reset --hard
-
-      - name: 📂 Sync folders and files to the server
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_PASSWORD  }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
+    - name: Use Node.js 16
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+      
+    - name: 🔨 Build Project
+      run: |
+        npm install
+        npm run build
+    
+    - name: 📂 Sync folders and files to the server
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_PASSWORD  }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        server-dir: public_html/test/
+        local-dir: ./dist/
 
