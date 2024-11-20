@@ -25,7 +25,7 @@ jobs:
         username: ${{ secrets.FTP_PASSWORD  }}
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./dist/
-        server-dir: public_html/test/
+        server-dir: public_html/
         port: 21
         log-level: verbose
         timeout: 90000
